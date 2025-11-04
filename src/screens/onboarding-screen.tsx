@@ -131,8 +131,6 @@ export const OnboardingScreen = () => {
         },
     ]
 
-
-
     const avatars = [
         require('@/assets/images/avatar.jpg'),
         require('@/assets/images/avatar.jpg'),
@@ -157,103 +155,104 @@ export const OnboardingScreen = () => {
                 animationDuration: '800ms',
                 animationTimingFunction: "ease-in-out",
             }]}>
-                <Animated.View style={[styles.rowCenter, { columnGap: 4 }]}>
-                    {text1.split(" ").map((word, index) => (
-                        <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {word.split("").map((char, charIndex) => (
-                                <Animated.Text
-                                    key={charIndex}
-                                    style={[styles.title, {
-                                        animationName: {
-                                            from: { transform: [{ translateY: coordinates1[index][charIndex].y }, { translateX: coordinates1[index][charIndex].x }, { scale: 3 }] },
-                                            to: { transform: [{ translateY: 0 }, { translateX: 0 }, { scale: 1 }] },
-                                        },
-                                        animationDuration: '800ms',
-                                        animationTimingFunction: "ease-in-out",
-                                        animationFillMode: 'forwards',
-                                    }]}
-                                >
-                                    {char}
-                                </Animated.Text>
-                            ))}
-                        </View>
-                    ))}
-                </Animated.View>
-                <Animated.View
-                    style={styles.rowCenter}
-                >
-                    {text2.split("").map((char, charIndex) => (
-                        <Animated.Text
-                            key={charIndex}
-                            style={[styles.title, {
-                                animationName: {
-                                    from: { transform: [{ translateY: coordinates2[charIndex].y }, { translateX: coordinates2[charIndex].x }, { scale: 3 }] },
-                                    to: { transform: [{ translateY: 0 }, { translateX: 0 }, { scale: 1 }] },
-                                },
-                                animationDuration: '800ms',
-                                animationTimingFunction: "ease-in-out",
-                                animationFillMode: 'forwards',
-                            }]}
-                        >
-                            {char}
-                        </Animated.Text>
-                    ))}
-                    <Animated.View style={{ flexDirection: 'row', alignItems: "center", marginHorizontal: 2 }}>
-                        {avatars.map((avatar, index) => (
-                            <Animated.Image
-                                key={index}
-                                source={avatar}
-                                style={{
-                                    width: 28,
-                                    height: 28,
-                                    borderRadius: 16,
-                                    marginLeft: index === 0 ? 0 : -10,
-                                    borderWidth: 1,
-                                    borderColor: '#fff',
+                <View style={{ alignItems: 'center' }}>
+                    <Animated.View style={[styles.rowCenter, { columnGap: 4 }]}>
+                        {text1.split(" ").map((word, index) => (
+                            <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                {word.split("").map((char, charIndex) => (
+                                    <Animated.Text
+                                        key={charIndex}
+                                        style={[styles.title, {
+                                            animationName: {
+                                                from: { transform: [{ translateY: coordinates1[index][charIndex].y }, { translateX: coordinates1[index][charIndex].x }, { scale: 3 }] },
+                                                to: { transform: [{ translateY: 0 }, { translateX: 0 }, { scale: 1 }] },
+                                            },
+                                            animationDuration: '800ms',
+                                            animationTimingFunction: "ease-in-out",
+                                            animationFillMode: 'forwards',
+                                        }]}
+                                    >
+                                        {char}
+                                    </Animated.Text>
+                                ))}
+                            </View>
+                        ))}
+                    </Animated.View>
+                    <Animated.View
+                        style={styles.rowCenter}
+                    >
+                        {text2.split("").map((char, charIndex) => (
+                            <Animated.Text
+                                key={charIndex}
+                                style={[styles.title, {
                                     animationName: {
-                                        from: { transform: [{ translateY: coordinates4[index].y }, { translateX: coordinates4[index].x }, { scale: 3 }] },
+                                        from: { transform: [{ translateY: coordinates2[charIndex].y }, { translateX: coordinates2[charIndex].x }, { scale: 3 }] },
                                         to: { transform: [{ translateY: 0 }, { translateX: 0 }, { scale: 1 }] },
                                     },
                                     animationDuration: '800ms',
                                     animationTimingFunction: "ease-in-out",
                                     animationFillMode: 'forwards',
+                                }]}
+                            >
+                                {char}
+                            </Animated.Text>
+                        ))}
+                        <Animated.View style={{ flexDirection: 'row', alignItems: "center", marginHorizontal: 2 }}>
+                            {avatars.map((avatar, index) => (
+                                <Animated.Image
+                                    key={index}
+                                    source={avatar}
+                                    style={{
+                                        width: 28,
+                                        height: 28,
+                                        borderRadius: 16,
+                                        marginLeft: index === 0 ? 0 : -10,
+                                        borderWidth: 1,
+                                        borderColor: '#fff',
+                                        animationName: {
+                                            from: { transform: [{ translateY: coordinates4[index].y }, { translateX: coordinates4[index].x }, { scale: 3 }] },
+                                            to: { transform: [{ translateY: 0 }, { translateX: 0 }, { scale: 1 }] },
+                                        },
+                                        animationDuration: '800ms',
+                                        animationTimingFunction: "ease-in-out",
+                                        animationFillMode: 'forwards',
 
-                                }}
-                                resizeMode="cover"
-                            />
+                                    }}
+                                    resizeMode="cover"
+                                />
+                            ))}
+                        </Animated.View>
+                        {text3.split("").map((char, charIndex) => (
+                            <Animated.Text
+                                key={charIndex}
+                                style={[styles.title, {
+                                    animationName: {
+                                        from: { transform: [{ translateY: coordinates3[charIndex].y }, { translateX: coordinates3[charIndex].x }, { scale: 3 }] },
+                                        to: { transform: [{ translateY: 0 }, { translateX: 0 }, { scale: 1 }] },
+                                    },
+                                    animationDuration: '800ms',
+                                    animationTimingFunction: "ease-in-out",
+                                    animationFillMode: 'forwards',
+                                }]}
+                            >
+                                {char}
+                            </Animated.Text>
                         ))}
                     </Animated.View>
-                    {text3.split("").map((char, charIndex) => (
-                        <Animated.Text
-                            key={charIndex}
-                            style={[styles.title, {
-                                animationName: {
-                                    from: { transform: [{ translateY: coordinates3[charIndex].y }, { translateX: coordinates3[charIndex].x }, { scale: 3 }] },
-                                    to: { transform: [{ translateY: 0 }, { translateX: 0 }, { scale: 1 }] },
-                                },
-                                animationDuration: '800ms',
-                                animationTimingFunction: "ease-in-out",
-                                animationFillMode: 'forwards',
-                            }]}
-                        >
-                            {char}
+                    <Animated.View>
+                        <Animated.Text style={[styles.subtitle, {
+                            animationName: {
+                                from: { transform: [{ translateY: 200 }, { translateX: 0 }, { scale: 2 }] },
+                                to: { transform: [{ translateY: 0 }, { translateX: 0 }, { scale: 1 }] },
+                            },
+                            animationDuration: '800ms',
+                            animationTimingFunction: "ease-in-out",
+                        }]}>
+                            Your friends' wish lists are waiting{'\n'}— sneak a look and spread the joy!
                         </Animated.Text>
-                    ))}
-                </Animated.View>
-                <Animated.View>
-                    <Animated.Text style={[styles.subtitle, {
-                        animationName: {
-                            from: { transform: [{ translateY: 200 }, { translateX: 0 }, { scale: 2 }] },
-                            to: { transform: [{ translateY: 0 }, { translateX: 0 }, { scale: 1 }] },
-                        },
-                        animationDuration: '800ms',
-                        animationTimingFunction: "ease-in-out",
-                    }]}>
-                        Your friends' wish lists are waiting{'\n'}— sneak a look and spread the joy!
-                    </Animated.Text>
-                </Animated.View>
+                    </Animated.View>
+                </View>
 
-                {/* Cards Carousel */}
                 <CardCarousel />
             </Animated.View>
 
@@ -268,14 +267,14 @@ export const OnboardingScreen = () => {
                     animationTimingFunction: "ease-in-out",
                 }]}
             >
-            <TouchableOpacity style={styles.buttonSecondary}>
-                <Text style={styles.buttonSecondaryText}>Find Friends</Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonSecondary}>
+                    <Text style={styles.buttonSecondaryText}>Find Friends</Text>
+                </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonPrimary}>
-                <Text style={styles.buttonPrimaryText}>Create an account</Text>
-            </TouchableOpacity>
-        </Animated.View>
+                <TouchableOpacity style={styles.buttonPrimary}>
+                    <Text style={styles.buttonPrimaryText}>Create an account</Text>
+                </TouchableOpacity>
+            </Animated.View>
         </LinearGradient >
     );
 };
@@ -297,9 +296,8 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 20,
+        justifyContent: "space-evenly"
     },
     titleContainer: {
         flexDirection: "row",
