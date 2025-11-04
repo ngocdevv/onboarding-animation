@@ -95,13 +95,13 @@ const AvatarSegment = ({
 }: {
     offsets: CharacterOffset[];
     avatarStyle?: StyleProp<ImageStyle>;
-    sources: ImageSourcePropType[];
+    sources: string[];
 }) => (
     <Animated.View style={styles.avatarStack}>
         {sources.map((source, index) => (
             <Animated.Image
                 key={`avatar-${index}`}
-                source={source}
+                source={{ uri: source } as ImageSourcePropType}
                 resizeMode="cover"
                 style={[
                     styles.avatar,
