@@ -375,18 +375,18 @@ const styles = StyleSheet.create({
     },
     collageCardBack: {
         top: 18,
-        left: 10,
+        left: 3,
         backgroundColor: "#EBF4FF",
         transform: [{ rotate: "-12deg" }],
     },
     collageCardMiddle: {
         top: 6,
-        right: 10,
+        right: 8,
         backgroundColor: "#FEE2E2",
         transform: [{ rotate: "8deg" }],
     },
     collageCardFront: {
-        bottom: 6,
+        bottom: 8,
         alignSelf: "center",
         backgroundColor: "#FFF7ED",
         transform: [{ rotate: "12deg" }],
