@@ -9,8 +9,19 @@ import {
     useImage,
 } from "@shopify/react-native-skia";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useEffect, useMemo, useRef } from "react";
-import { Animated, Easing, Image, StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import Animated, {
+    cancelAnimation,
+    Easing,
+    FadeInRight,
+    runOnJS,
+    useAnimatedStyle,
+    useSharedValue,
+    withRepeat,
+    withSequence,
+    withTiming,
+} from "react-native-reanimated";
 
 type ShapeType = "scallop" | "rounded" | "circle" | "rectangle";
 
@@ -298,41 +309,86 @@ const CardItem = ({ card, isLast }: { card: CardDescriptor; isLast: boolean }) =
 };
 
 export const CardCarousel = () => {
-    const translateX = useRef(new Animated.Value(0)).current;
+    const translateX = useSharedValue(0);
     const shuffledCards = useMemo(() => shuffleArray(CARDS), []);
     const duplicatedCards = useMemo(() => duplicateForLooping(shuffledCards), [shuffledCards]);
+    const [introAnimationFinished, setIntroAnimationFinished] = useState(false);
+    const isMountedRef = useRef(true);
 
     useEffect(() => {
+        isMountedRef.current = true;
+
+        return () => {
+            isMountedRef.current = false;
+        };
+    }, []);
+
+    const handleIntroAnimationEnd = useCallback(() => {
+        if (!isMountedRef.current) {
+            return;
+        }
+        setIntroAnimationFinished(true);
+    }, [setIntroAnimationFinished]);
+
+    const enteringAnimation = useMemo(
+        () =>
+            FadeInRight.duration(600).withCallback((finished) => {
+                "worklet";
+                if (finished) {
+                    runOnJS(handleIntroAnimationEnd)();
+                }
+            }),
+        [handleIntroAnimationEnd]
+    );
+
+    useEffect(() => {
+        if (!introAnimationFinished) {
+            return;
+        }
+
         const travelDistance = shuffledCards.length * (CARD_WIDTH + CARD_SPACING);
-        translateX.setValue(0);
-        const animation = Animated.loop(
-            Animated.sequence([
-                Animated.timing(translateX, {
-                    toValue: -travelDistance,
+        cancelAnimation(translateX);
+        translateX.value = 0;
+        translateX.value = withRepeat(
+            withSequence(
+                withTiming(-travelDistance, {
                     duration: 16000,
                     easing: Easing.linear,
-                    useNativeDriver: true,
                 }),
-                Animated.timing(translateX, {
-                    toValue: 0,
+                withTiming(0, {
                     duration: 0,
                     easing: Easing.linear,
-                    useNativeDriver: true,
-                }),
-            ])
+                })
+            ),
+            -1,
+            false
         );
-
-        animation.start();
         return () => {
-            animation.stop();
+            cancelAnimation(translateX);
+            translateX.value = 0;
         };
-    }, [shuffledCards, translateX]);
+    }, [introAnimationFinished, shuffledCards, translateX]);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ translateX: translateX.value }],
+    }));
 
     return (
         <View style={styles.carouselContainer}>
-            <Animated.View style={[styles.scrollTrack, { transform: [{ translateX }] }]}>
+            <Animated.View style={[styles.scrollTrack, animatedStyle]} entering={enteringAnimation}>
                 {duplicatedCards.map((card, index) => (
-                    <CardItem key={`${card.id}-${index}`} card={card} isLast={index === duplicatedCards.length - 1} />
+                    <Animated.View key={`${card.id}-${index}`} style={{
+                        animationName: {
+                            from: { opacity: 0, transform: [{ translateX: (index + 1) * 300 }] },
+                            to: { opacity: 1, transform: [{ translateX: 0 }] },
+
+                        },
+                        animationDuration: '800ms',
+                        animationTimingFunction: "ease-in-out",
+                        animationFillMode: 'forwards',
+                    }}>
+                        <CardItem card={card} isLast={index === duplicatedCards.length - 1} />
+                    </Animated.View>
                 ))}
             </Animated.View>
         </View>
@@ -347,6 +403,7 @@ const styles = StyleSheet.create({
     },
     scrollTrack: {
         flexDirection: "row",
+        columnGap: 8
     },
     cardWrapper: {
         width: CARD_WIDTH,
